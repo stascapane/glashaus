@@ -1,0 +1,175 @@
+openapi: 3.0.2
+info:
+  version: '1.0.0'
+  
+  title: Glashaus 
+
+  contact:
+    email: sara.pichireddu@kstamedien.de 
+  
+  
+ 
+  description: |
+    In diesem OpenAPI Dokument outlinen wir die Zusammenarbeit zwischen 
+    Front- und Backend für das geplante Widget zur hausnummernscharfen Abfrage 
+    von Wahlergebnissen.
+    User schicken ihre Adresse mit einem Request, und das Backend 
+    antwortet im ersten Schritt mit dem Stimmbezirk. Daraufhin schickt der User
+    einen zweiten (und dritten) Request mit dem genannten Stimmbezirk und erhält
+    schließlich die Ergebnisse der Erst- und Zweitstimmen. 
+
+externalDocs:
+  description: Find this on my GitHub.
+  url: 'https://github.com/stascapane/glashaus'
+
+tags:
+  - name: Stimmbezirk
+    description: Stimmbezirk Funktionalität
+  - name: Erststimme
+    description: Ergebnisse Erststimme Funktionalität 
+  - name: Zweitstimme
+    description: Ergebnisse Zweitstimme Funktionalität
+servers:
+  - url: 'https://stimmbezirk-service.com/api/v1'
+
+paths:
+    
+  '/stimmbezirk': 
+    post: 
+      tags:
+        - Stimmbezirk
+      summary: erhalte stimmbezirk
+      description: erhalte den stimmbezirk zur adresse
+      operationId: stimmbezirk
+      
+      responses:
+        '200':
+          description: OK
+          
+          content: 
+            application/json:
+              schema:
+                type: integer
+              examples:
+                response:
+                  value: 901256
+        '404':
+          description: Adresse nicht gefunden
+           
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Adresse'
+            example: 
+              strasse: Teststr
+              hausnummer: 3c
+              postleitzahl: 50123
+
+        description: Die Adresse der Abfrage
+        required: true
+
+  '/erststimmen/{stimmbezirk}':
+    get: 
+      tags:
+        - Erststimme
+      summary: erhalte erstimmen
+      description: erhalte die im stimmbezirk abgegebenen erststimmen
+      operationId: erststimme
+
+      parameters:
+        - name: stimmbezirk
+          in: path
+          description: zuvor ausgegebene stimmbezirk-nummer
+          required: true
+          schema:
+            type: integer
+  
+      responses:
+        '200':
+          description: OK
+          
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ergebnis'
+              example: 
+                - parteiname: SPD
+                  stimmen: 56
+        '404':
+          description: Stimmbezirk nicht gefunden
+          
+  '/zweitstimmen/{stimmbezirk}':
+    get: 
+      tags:
+        - Zweitstimme
+      summary: erhalte zweitimmen
+      description: erhalte die im stimmbezirk abgegebenen zweitstimmen
+      operationId: zweitstimme
+
+      parameters:
+        - name: stimmbezirk
+          in: path
+          description: zuvor ausgegebene stimmbezirk-nummer
+          required: true
+          schema:
+            type: integer
+  
+      responses:
+        '200':
+          description: OK
+          
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ergebnis'
+              example: 
+                - parteiname: SPD
+                  stimmen: 56
+        '404':
+          description: Stimmbezirk nicht gefunden
+        
+components:
+  schemas:
+    
+    Adresse:
+      type: object
+      properties:
+        strasse:
+          description: strasse in koeln
+          type: string
+          example: Teststr
+        hausnummer:
+          description: hausnummer in koeln
+          type: string
+          example: 3c
+        postleitzahl:
+          description: postleitzahl in koeln
+          type: integer
+          example: 50123
+      required: 
+      - strasse
+      - hausnummer
+      - postleitzahl
+
+    Ergebnis:
+      type: array
+      items:
+        $ref: '#/components/schemas/Parteiergebnis'
+      
+    Parteiergebnis:
+      type: object
+      properties:
+        parteiname:
+          description: Name der Partei
+          type: string
+          example: SPD
+        stimmen:
+          description: Anzahl der Stimmen
+          type: integer
+          example: 54
+      required:
+      - parteiname
+      - stimmen
+  
+# template here: https://github.com/Redocly/openapi-template/blob/gh-pages/openapi.yaml
