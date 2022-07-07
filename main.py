@@ -28,7 +28,7 @@ def export_json_to_sql(filename: str, result_filename: str):
                 result.write(insert + "\n")
 
 
-def export_cvs1_to_sql(filename: str, result_filename: str):
+def export_csv1_to_sql(filename: str, result_filename: str):
     remove_if_exists(result_filename)
     df = pd.read_csv(filename)
 
@@ -48,7 +48,7 @@ def export_cvs1_to_sql(filename: str, result_filename: str):
             result.write(insert + "\n")
 
 
-def export_cvs2_to_sql(filename: str, result_filename: str):
+def export_csv2_to_sql(filename: str, result_filename: str):
     remove_if_exists(result_filename)
     df = pd.read_csv(filename)
 
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     ergebnisse = r"C:\Users\roxam\Documents\Arbeit\Datenshit_Work\StimmbezirkeKoelncsvtoxlstocsv.csv"
 
     result_ergebnisse_1 = ergebnisse.replace(".csv", "1.sql")
-    export_cvs1_to_sql(ergebnisse, result_ergebnisse_1)
+    export_csv1_to_sql(ergebnisse, result_ergebnisse_1)
 
     result_ergebnisse_2 = ergebnisse.replace(".csv", "2.sql")
-    export_cvs2_to_sql(ergebnisse, result_ergebnisse_2)
+    export_csv2_to_sql(ergebnisse, result_ergebnisse_2)
