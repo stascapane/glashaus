@@ -16,6 +16,7 @@ Zuordnung aller **Gebäude** um einen Stimmbezirk zu halten.
 Das csv-Dokument mit den Stimmen pro Stimmbezirk ist außerdem nur mit einem externen 
 Schlüssel lesbar, Kolumnen sind nicht sprechend benannt.* 
 ***
+
 ### Das macht der Code
 
 1. Wir importieren die python directories, die wir brauchen
