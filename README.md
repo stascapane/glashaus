@@ -43,8 +43,10 @@ Schreibt dann die so ausgelesenen Informationen in eine SQL-Datei,
 3. Wir zeigen, wo die Dateien liegen, mit denen wir arbeiten wollen. 
    Wir speichern die Pfade in Variablen und geben diese als Parameter an die Funktionen. 
    Wir generieren Dateinamen für die sql-Dateien aus den Datenquellen.
+   
 ***
-###Das soll mit den so erzeugten Dateien passieren
+
+### Das soll mit den so erzeugten Dateien passieren
 
 Die Erstellung von SQLite-Datenbanken stellt sicher, dass unsere Daten nicht nur inhaltlich, 
 sondern auch formal bereinigt sind – doppelte oder nicht ausgefüllte Zeilen werden 
